@@ -1,6 +1,12 @@
-function Snew = energytest(Snew)
+function Snew = energytest(structORvec)
 
-energy = Snew.eVenergy;
+if isstruct(structORvec)
+	Snew = structORvec;
+	energy = Snew.eVenergy;
+elseif isvector(structORvec)
+	energy = structORvec;
+end
+
 
 Snew.elements.S = 0;
 Snew.elements.C = 0;

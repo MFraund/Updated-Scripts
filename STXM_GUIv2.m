@@ -110,6 +110,13 @@ hsort = uicontrol(...
     'Position',[0.87, 0.93, 0.1, 0.053],...
     'Callback',{@hsort_callback});
 
+hdatamerge = uicontrol(...
+	'Style','pushbutton',...
+	'String','Merge STXM Data',...
+	'Units','normalized',...
+	'Tag','Load',...
+	'Position',[0.87, 0.83, 0.1, 0.053],...
+	'Callback',{@hmerge_callback});
 
 
 
@@ -659,7 +666,12 @@ graycmap = [graycmap; 0.9,0.3,0.3];
 %pertaining to a single experiment
     function hsort_callback(~,~)
         stxmsort();
-    end
+	end
+
+%% hdatamerge runs the data merge routine, useful for when C and N data (for example) were taken as separate stacks/maps
+	function hmerge_callback(~,~)
+		MergingRawSTXMData();
+	end
 
 %% hanalyze runs analysis scripts
     function hanalyze_callback(~,~)

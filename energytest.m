@@ -23,7 +23,7 @@ npreflag = 0;   npostflag = 0;
 opreflag = 0;   opostflag = 0;
 
 %%%%
-%%%% Testing for Sulfur
+%% Testing for Sulfur
 %%%%
 [~,spreidx] = min(abs(energy - 160));
 [~,spostidx] = min(abs(energy - 190));
@@ -44,7 +44,7 @@ end
 
 
 %%%%
-%%%% Testing for Carbon
+%% Testing for Carbon
 %%%%
 [~,cpreidx] = min(abs(energy - 278));
 [~,cpostidx] = min(abs(energy - 320));
@@ -63,7 +63,7 @@ if cpreflag == 1 && cpostflag == 1
 end
 
 %%%%
-%%%% Testing for Potassium  %must add peak positions.  This is not a simple
+%% Testing for Potassium  %must add peak positions.  This is not a simple
 %%%% pre/post quantification!!!
 %%%%
 [~,kpreidx] = min(abs(energy - 294.5));
@@ -85,13 +85,13 @@ end
 
 
 %%%%
-%%%% Testing for Calcium
+%% Testing for Calcium
 %%%%
 [~,capreidx] = min(abs(energy - 347));
 [~,capostidx] = min(abs(energy - 352.5));
 capreval = energy(capreidx);
 capostval = energy(capostidx);
-if capreval > 340 && capreval < 349
+if capreval > 340 && capreval < 350
 	capreflag = 1;
 end
 
@@ -108,7 +108,7 @@ end
 
 
 %%%%
-%%%% Testing for Nitrogen
+%% Testing for Nitrogen
 %%%%
 [~,npreidx] = min(abs(energy - 400));
 [~,npostidx] = min(abs(energy - 430));
@@ -129,7 +129,7 @@ end
 
 
 %%%%
-%%%% Testing for Oxygen
+%% Testing for Oxygen
 %%%%
 [~,opreidx] = min(abs(energy - 525));
 [~,opostidx] = min(abs(energy - 550));

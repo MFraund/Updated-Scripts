@@ -22,6 +22,8 @@ end
 
 totN = Snew.spectr(:,:,npostidx); - Snew.spectr(:,:,npreidx);
 
+totN(totN < 0) = 0;
+
 totN = totN .* Snew.binmap;
 
 Snew.totN = totN;

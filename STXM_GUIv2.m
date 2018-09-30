@@ -509,7 +509,7 @@ hsavestackfig = uicontrol(...
 %%%%
 hpattern_noise = uicontrol(...
     'Style','pushbutton',...
-    'String','Fix Patterned Noise',...
+    'String','Realign Masked',...
     'Units','normalized',...
     'Visible','off',...
     'Position',[0.35,0.01,0.1,0.053],...
@@ -609,9 +609,17 @@ graycmap = [graycmap; 0.9,0.3,0.3];
             [folderpath,foldername,~] = fileparts(filedirs{i}); %only picking the foldernames for brevity
             [folderpath_up1,foldername_up1,~] = fileparts(folderpath);
             [~,foldername_up2,~] = fileparts(folderpath_up1);
-            fullfolders{i} = [foldername_up2,' \ ',foldername_up1,' \ ',foldername];
+            
             folders{i} = foldername; %making list of directory names
-            tempfiledir = strcat(filedirs{i},'\');
+			
+			if ispc()
+				tempfiledir = strcat(filedirs{i},'\');
+				fullfolders{i} = [foldername_up2,' \ ',foldername_up1,' \ ',foldername];
+			elseif ismac()
+				tempfiledir = strcat(filedirs{i},'/');
+				fullfolders{i} = [foldername_up2,' / ',foldername_up1,' / ',foldername];
+			end
+
             cd(tempfiledir); %moving to each directory
             tempfilenames = ls; %listing out file names
             cnt = 0;
@@ -2540,11 +2548,17 @@ graycmap = [graycmap; 0.9,0.3,0.3];
 	end
 
 
+%% 
+	function hpattern_noise_callback(~,~)
+		
+		
+	end
+
 %% run cleanup code when figure is closed
     function figureclose_callback(~,~)
         clear('Dataset');
         clear global
         delete(f);      
-    end
+	end
 
 end

@@ -20,7 +20,7 @@ else
     disp('Missing N post-edge energy');
 end
 
-totN = Snew.spectr(:,:,npostidx); - Snew.spectr(:,:,npreidx);
+totN = Snew.spectr(:,:,npostidx) - Snew.spectr(:,:,npreidx);
 
 totN(totN < 0) = 0;
 

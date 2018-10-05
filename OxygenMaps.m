@@ -20,7 +20,7 @@ else
     disp('Missing O post-edge energy');
 end
 
-totO = Snew.spectr(:,:,opostidx); - Snew.spectr(:,:,opreidx);
+totO = Snew.spectr(:,:,opostidx) - Snew.spectr(:,:,opreidx);
 
 totO = totO .* Snew.binmap;
 

@@ -20,7 +20,7 @@ else
     disp('Missing Ca post-edge energy');
 end
 
-totCa = Snew.spectr(:,:,capostidx); - Snew.spectr(:,:,capreidx);
+totCa = Snew.spectr(:,:,capostidx) - Snew.spectr(:,:,capreidx);
 
 totCa = totCa .* Snew.binmap;
 

@@ -21,7 +21,7 @@ else
     disp('Missing K post-edge energy');
 end
 
-totK = Snew.spectr(:,:,kpostidx); - Snew.spectr(:,:,kpreidx);
+totK = Snew.spectr(:,:,kpostidx) - Snew.spectr(:,:,kpreidx);
 
 totK = totK .* Snew.binmap;
 

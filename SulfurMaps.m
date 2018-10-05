@@ -24,6 +24,8 @@ end
 
 totS = Snew.spectr(:,:,spostidx) - Snew.spectr(:,:,spreidx);
 
+totS(totS < 0) = 0;
+
 totS = totS .* Snew.binmap;
 
 Snew.totS = totS;

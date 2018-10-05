@@ -23,6 +23,8 @@ end
 
 totK = Snew.spectr(:,:,kpostidx) - Snew.spectr(:,:,kpreidx);
 
+totK(totK < 0) = 0;
+
 totK = totK .* Snew.binmap;
 
 Snew.totK = totK;

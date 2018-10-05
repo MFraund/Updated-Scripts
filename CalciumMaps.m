@@ -22,6 +22,8 @@ end
 
 totCa = Snew.spectr(:,:,capostidx) - Snew.spectr(:,:,capreidx);
 
+totCa(totCa < 0) = 0;
+
 totCa = totCa .* Snew.binmap;
 
 Snew.totCa = totCa;

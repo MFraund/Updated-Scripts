@@ -22,6 +22,8 @@ end
 
 totO = Snew.spectr(:,:,opostidx) - Snew.spectr(:,:,opreidx);
 
+totO(totO < 0) = 0;
+
 totO = totO .* Snew.binmap;
 
 Snew.totO = totO;

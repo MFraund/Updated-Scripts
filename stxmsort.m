@@ -18,7 +18,7 @@
 %multihdrsplit (necessary) : This is used to split multi region images
 %						(specifically the hdr's) into separate files,
 %						one for each particle
-
+function stxmsort()
 foldernames = uipickfiles;
 lfolders = length(foldernames);
 
@@ -201,4 +201,7 @@ for k = 1:length(foldernames)
 	waitbar(k/lfolders)
 end
 close(hwait);
-clear
+% clear
+
+
+end

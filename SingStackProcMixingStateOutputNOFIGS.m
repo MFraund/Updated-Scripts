@@ -1,6 +1,7 @@
 function [S, Snew, Mixing, Particles] = SingStackProcMixingStateOutputNOFIGS(datafolder, threshlevel, binadjtest, givenbinmap,varargin)
 
-%[S, Snew, Mixing, Particles] = SingStackProcMixingStateOutputNOFIGS(datafolder)
+%[S, Snew, Mixing, Particles] = SingStackProcMixingStateOutputNOFIGS(datafolder, threshlevel, binadjtest, givenbinmap,varargin)
+
 %
 %
 % This script processes stxm data found in "RawDir" and places it in
@@ -14,15 +15,21 @@ function [S, Snew, Mixing, Particles] = SingStackProcMixingStateOutputNOFIGS(dat
 % Modified 9/24/15 by Matthew Fraund at University of the Pacific
 
 %% Input Checking Before Code
+
+
 if isempty(varargin)
 	inorganic = 'NaCl';
-	organic = 'Sucrose';
+	organic = 'sucrose';
 elseif length(varargin) == 1
 	inorganic = varargin{1};
-	organic = 'Sucrose';
+	organic = 'sucrose';
 elseif length(varargin) == 2
 	inorganic = varargin{1};
 	organic = varargin{2};
+elseif length(varargin) == 3
+	inorganic = varargin{1};
+	organic = varargin{2};
+	givenStruct = varargin{3};
 end
 
 
@@ -55,23 +62,28 @@ numobj=length(foldstruct);
 %     if strcmp(foldstruct(i).name,Name)
 %         righti=i;
 %         try cd(fullfile(datafolder,foldstruct(i).name)); %% move to data folder
-S=LoadStackRawMulti(pwd); %% load stack data
+if length(varargin) == 3
+	S = givenStruct;
+else
+	S = LoadStackRawMulti(pwd); %% load stack data
+end
+
 sdim=size(S.spectr);
 filenames = cell(1,1);
 if sdim(3)>length(S.eVenergy)
-    S.spectr=S.spectr(:,:,1:length(S.eVenergy));
+	S.spectr=S.spectr(:,:,1:length(S.eVenergy));
 end
 
 for i = 1:numobj %% loops through stack folders in raw data folder
-    bidx=strfind(foldstruct(i).name,'.hdr');
-    ximidx = strfind(foldstruct(i).name,'.xim');
-    if ~isempty(bidx)
-        S.particle=sprintf('%s',foldstruct(i).name(1:bidx-1));
-    end
-    if ~isempty(ximidx) || ~isempty(bidx)
-        filenames{cnt} = foldstruct(i).name;
-        cnt= cnt+1;
-    end
+	bidx=strfind(foldstruct(i).name,'.hdr');
+	ximidx = strfind(foldstruct(i).name,'.xim');
+	if ~isempty(bidx)
+		S.particle=sprintf('%s',foldstruct(i).name(1:bidx-1));
+	end
+	if ~isempty(ximidx) || ~isempty(bidx)
+		filenames{cnt} = foldstruct(i).name;
+		cnt= cnt+1;
+	end
 end
 %             S.particle=sprintf('%s',foldstruct.name); %% print particle name
 %             S=DeglitchStack(S,badE);
@@ -81,14 +93,15 @@ end
 %figure,plot(S.eVenergy,squeeze(mean(mean(S.spectr))))
 
 
+S = RemoveHorizStreaks_STXM(S);
 
 S=AlignStack(S);
 
 
 if length(S.eVenergy)<3
-    Snew=OdStack(S,'map',0,'no',threshlevel);
+	Snew=OdStack(S,'map',0,'no',threshlevel);
 else
-    Snew=OdStack(S,'O',0,'no',threshlevel);
+	Snew=OdStack(S,'O',0,'no',threshlevel);
 end
 %             cd(FinDir)
 ImpTest=1;
@@ -106,7 +119,7 @@ ImpTest=1;
 
 
 if ImpTest==0
-    error('No import performed: Wrong filename or path?');
+	error('No import performed: Wrong filename or path?');
 end
 % cd(P1Dir)
 % numobj=length(dir);
@@ -135,9 +148,9 @@ Snew = makinbinmap(Snew);
 %load(sprintf('%s%s','F',S.particle));
 
 if Snew.elements.C == 1
-    
-    if binadjtest == 1
-        Snew = CarbonMapsSuppFigs(Snew,0.35,1,1,'given',givenbinmap);
+	
+	if binadjtest == 1
+		Snew = CarbonMapsSuppFigs(Snew,0.35,1,1,'given',givenbinmap);
         savedbinmap = givenbinmap;
     else
         Snew=CarbonMapsSuppFigs(Snew,0.35);
